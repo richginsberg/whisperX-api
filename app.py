@@ -43,15 +43,14 @@ def transcribe():
         file.save(filepath)
         
         result = transcribe(filepath)
+        response = jsonify(result)
+        
         if pretty_json and pretty_json.lower() == 'true':
             # If the header is present and set to 'true', format JSON with 4 spaces indentation
-            response = jsonify(result)
             response.data = json.dumps(response.json, indent=4)
             response.headers['Content-Type'] = 'application/json'
-            return response
-        else:
-            # Default behavior if the header is not present or set to something other than 'true'
-            return jsonify(result)
+            
+        return response
     else:
         return jsonify({'error': 'Invalid file type'}), 400
 
